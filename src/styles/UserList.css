@@ -1,0 +1,173 @@
+.userlist-container {
+    min-height: 100vh;
+    background-color: #e3f2fd;
+    /* svjetlija pastelna plava */
+    padding: 40px;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.userlist-title {
+    margin-bottom: 24px;
+    color: #3f51b5;
+    font-size: 28px;
+    font-weight: 700;
+    text-align: left;
+}
+
+.userlist-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.userlist-search {
+    flex: 1;
+    min-width: 260px;
+}
+
+.userlist-search input:focus {
+    outline: none;
+    border-color: #5c6bc0;
+}
+
+.userlist-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.userlist-status-filter {
+    min-width: 200px;
+}
+
+.userlist-status-filter .MuiOutlinedInput-root {
+    background-color: #5c6bc0 !important;
+    color: white !important;
+    font-weight: 600;
+    height: 42px;
+    border-radius: 10px;
+    padding: 0 12px;
+    font-size: 15px;
+    border: none;
+}
+
+.userlist-status-filter .MuiOutlinedInput-notchedOutline {
+    border: none !important;
+}
+
+.userlist-status-filter .MuiSvgIcon-root {
+    color: white !important;
+}
+
+.userlist-table {
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: white;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    margin-top: 0;
+}
+
+/* DevExpress table headers */
+.MuiTableHead-root {
+    background-color: #5c6bc0 !important;
+}
+
+.MuiTableCell-head {
+    background-color: #5c6bc0 !important;
+    font-weight: bold !important;
+    font-size: 15px !important;
+    border-bottom: none !important;
+    padding: 14px 16px !important;
+}
+
+/* Table body cells */
+.MuiTableCell-root {
+    font-size: 14px !important;
+    padding: 12px 16px !important;
+    border-bottom: 1px solid #e0e0e0 !important;
+}
+
+/* Hover row effect */
+.MuiTableRow-root:hover {
+    background-color: #f1f8ff !important;
+}
+
+/* Buttons */
+button {
+    background-color: #5c6bc0 !important;
+    color: white !important;
+    font-weight: 600;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #3f51b5 !important;
+    box-shadow: 0 2px 6px rgba(63, 81, 181, 0.3);
+}
+
+/* Icon buttons */
+.MuiIconButton-root {
+    background-color: #5c6bc0 !important;
+    color: white !important;
+    padding: 8px;
+    border-radius: 10px;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.MuiIconButton-root:hover {
+    background-color: #3f51b5 !important;
+    box-shadow: 0 2px 6px rgba(63, 81, 181, 0.3);
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .userlist-top-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .userlist-actions {
+        justify-content: flex-start;
+        width: 100%;
+    }
+
+    .userlist-search {
+        width: 100%;
+    }
+
+    .userlist-status-filter {
+        width: 100%;
+    }
+}
+
+/* Stil za header ćelije */
+.MuiTableCell-head {
+    background-color: #5c6bc0 !important;
+    color: white !important;
+    font-weight: bold !important;
+    border-bottom: none !important;
+}
+
+/* Stil za redove u tabeli */
+.userlist-table-row {
+    cursor: pointer;
+    background-color: white;
+    transition: background-color 0.2s ease;
+}
+
+.userlist-table-row:hover {
+    background-color: #f5f5f5;
+}
+
+.userlist-table-row.selected {
+    background-color: #e3f2fd !important;
+}

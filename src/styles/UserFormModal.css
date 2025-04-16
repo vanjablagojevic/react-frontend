@@ -1,0 +1,54 @@
+.custom-modal .MuiDialogActions-root {
+    padding: 20px 40px;
+    background-color: #f0f4ff;
+    /* svijetloplava pozadina */
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    border-top: 1px solid #c0d3fa;
+}
+
+/* Glavna dugmad */
+.custom-modal .MuiButton-root {
+    height: 44px;
+    min-width: 120px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 8px;
+    text-transform: none;
+    transition: background 0.3s ease;
+    box-sizing: border-box;
+}
+
+/* Primarno dugme – npr. 'Sačuvaj' */
+.custom-modal .MuiButton-containedPrimary {
+    background-color: #5c6bc0;
+    color: white;
+    border: none;
+}
+
+.custom-modal .MuiButton-containedPrimary:hover {
+    background-color: #3f51b5;
+}
+
+/* Sekundarno dugme – npr. 'Otkaži' */
+.custom-modal .MuiButton-outlinedPrimary {
+    background-color: #e0e9ff;
+    color: #3f51b5;
+    border: 1px solid #b6c9f0;
+}
+
+.custom-modal .MuiButton-outlinedPrimary:hover {
+    background-color: #d1dbff;
+}
+
+.custom-modal .MuiDialogTitle-root {
+    background-color: #5c6bc0;
+    /* plavo zaglavlje */
+    color: white;
+    font-weight: 600;
+    font-size: 20px;
+    padding: 20px 40px;
+}

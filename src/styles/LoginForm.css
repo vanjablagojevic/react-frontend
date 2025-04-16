@@ -1,0 +1,90 @@
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #cfe8fc;
+}
+
+.form-box {
+  background: #ffffff;
+  padding: 40px 50px;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(92, 107, 192, 0.25);
+  width: 360px;
+  text-align: center;
+  border: 1px solid #b6c9f0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-box h2 {
+  margin-bottom: 25px;
+  color: #5c6bc0;
+  font-weight: bold;
+}
+
+.form-box input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 6px;
+  border: 1px solid #a9c1f7;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.form-box input:focus {
+  outline: none;
+  border-color: #5c6bc0;
+  box-shadow: 0 0 6px rgba(92, 107, 192, 0.4);
+}
+
+/* ✅ Za sve validacione greške ispod inputa */
+.input-error-message {
+  width: 100%;
+  text-align: left;
+  color: #d9534f;
+  font-size: 13px;
+  margin-top: 2px;
+  margin-bottom: 12px;
+}
+
+/* ✅ Za API greške (centar) */
+.api-error {
+  color: #d9534f;
+  font-size: 14px;
+  margin-top: 16px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.form-box button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  background: #5c6bc0;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.form-box button:hover {
+  background: #3f51b5;
+}
+
+.secondary-button {
+  background: transparent;
+  color: #5c6bc0;
+  border: none;
+  margin-top: 15px;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 14px;
+}
