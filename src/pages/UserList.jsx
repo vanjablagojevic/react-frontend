@@ -12,7 +12,7 @@ import {
   IntegratedFiltering,
   SelectionState,
   PagingState,
-  IntegratedPaging,
+  IntegratedPaging
 } from '@devexpress/dx-react-grid';
 import {
   Paper,
@@ -31,6 +31,8 @@ import '../styles/UserList.css';
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { useNavigate } from 'react-router-dom';
+import UserHistory from './UserHistory';
 
 export default function UserList() {
   const [rows, setRows] = useState([]);
@@ -43,11 +45,16 @@ export default function UserList() {
   const [pageSize, setPageSize] = useState(5);
   const [currentPage, setCurrentPage] = useState(0);
   const [exportMenuAnchor, setExportMenuAnchor] = useState(null);
+  const [userHistory, setUserHistory] = useState(null);
+  const [showUserHistory, setShowUserHistory] = useState(false);
+
+  const navigate = useNavigate();
 
   const columns = [
     { name: 'email', title: 'Email' },
     { name: 'role', title: 'Uloga' },
     { name: 'isActive', title: 'Aktivan' },
+    { name: 'akcija', title: 'Akcija' },
   ];
 
   const handleOpenExportMenu = (event) => {
@@ -56,6 +63,10 @@ export default function UserList() {
 
   const handleCloseExportMenu = () => {
     setExportMenuAnchor(null);
+  };
+
+  const handleAuditLog = () => {
+    navigate("/audit-logs");
   };
 
   useEffect(() => {
@@ -153,6 +164,14 @@ export default function UserList() {
     handleCloseExportMenu();
   };
 
+  const handleUserHistory = () => {
+    if (selection.length === 1) {
+      const userId = selection[0];
+      setUserHistory(userId);
+      setShowUserHistory(true);
+    }
+  };
+
   return (
     <>
       <Box className="userlist-container">
@@ -167,6 +186,7 @@ export default function UserList() {
             className="userlist-search"
           />
           <Box className="userlist-actions">
+            <Button onClick={handleAuditLog}>Audit Log</Button>
             <Button onClick={handleAddUser}>Dodaj korisnika</Button>
             <Button onClick={handleEditUser} disabled={selection.length !== 1}>
               Izmijeni
@@ -247,7 +267,29 @@ export default function UserList() {
                   />
                 );
               }}
+              cellComponent={(props) => {
+                const { column, row } = props;
+
+                if (column.name === 'akcija') {
+                  return (
+                    <Table.Cell {...props}>
+                      <Button
+                        size="small"
+                        onClick={() => {
+                          setUserHistory(row.id);
+                          setShowUserHistory(true);
+                        }}
+                      >
+                        Istorija
+                      </Button>
+                    </Table.Cell>
+                  );
+                }
+
+                return <Table.Cell {...props} />;
+              }}
             />
+
             <TableHeaderRow />
 
             <TableSelection showSelectAll={false} showSelectionColumn={false} highlightSelected />
@@ -263,6 +305,12 @@ export default function UserList() {
         onSubmit={fetchUsers}
         initialData={editingUser}
       />
+      {showUserHistory && userHistory && (
+        <UserHistory
+          userId={userHistory}
+          onClose={() => setShowUserHistory(false)}
+        />
+      )}
     </>
   );
 

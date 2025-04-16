@@ -6,6 +6,8 @@ import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 import UserList from './pages/UserList';
 import AdminRoute from './components/AdminRoute';
+import UserHistory from './pages/UserHistory';
+import AuditLog from './pages/AuditLog';
 
 function App() {
   const [token, setToken] = useState(sessionStorage.getItem('jwt'));
@@ -51,6 +53,22 @@ function App() {
           element={
             <AdminRoute>
               <UserList />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/user-history"
+          element={
+            <AdminRoute>
+              <UserHistory />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/audit-logs"
+          element={
+            <AdminRoute>
+              <AuditLog />
             </AdminRoute>
           }
         />
