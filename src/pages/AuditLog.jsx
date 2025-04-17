@@ -7,17 +7,23 @@ const PAGE_SIZE = 7;
 const AuditLog = () => {
     const [versions, setVersions] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [totalCount, setTotalCount] = useState(0);
+
 
     useEffect(() => {
         const fetchVersions = async () => {
-            const res = await API.get('/users/audit-logs');
-            setVersions(res.data);
+            try {
+                const res = await API.get(`/users/audit-logs?page=${currentPage}`);
+                setVersions(res.data.logs);
+                setTotalCount(res.data.totalCount);
+            } catch (error) {
+                console.error("Greška pri dohvaćanju audit logova:", error);
+            }
         };
         fetchVersions();
-    }, []);
+    }, [currentPage]);
 
-    const totalPages = Math.ceil(versions.length / PAGE_SIZE);
-    const currentItems = versions.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+    const totalPages = Math.ceil(totalCount / PAGE_SIZE);
 
     const goToPage = (page) => {
         if (page >= 1 && page <= totalPages) {
@@ -40,7 +46,8 @@ const AuditLog = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {currentItems.map((version, index) => (
+                        {versions.map((version, index) => (
+
                             <tr key={version.id}>
                                 <td>{(currentPage - 1) * PAGE_SIZE + index + 1}</td>
                                 <td>{version.tableName}</td>
@@ -49,6 +56,7 @@ const AuditLog = () => {
                                 <td>{new Date(version.changedAt).toLocaleString()}</td>
                             </tr>
                         ))}
+
                     </tbody>
                 </table>
             </div>

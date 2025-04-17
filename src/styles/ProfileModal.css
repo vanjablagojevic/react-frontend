@@ -132,6 +132,14 @@
     width: 100%;
 }
 
+.modal-buttons button:disabled {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    border: 1px solid #aaa;
+    opacity: 0.7;
+}
+
 .server-error-message {
     color: #d8000c;
     background-color: #ffdddd;

@@ -54,7 +54,7 @@ export default function UserList() {
     { name: 'email', title: 'Email' },
     { name: 'role', title: 'Uloga' },
     { name: 'isActive', title: 'Aktivan' },
-    { name: 'akcija', title: 'Akcija' },
+    { name: 'akcija', title: 'Verzija' },
   ];
 
   const handleOpenExportMenu = (event) => {
@@ -283,9 +283,7 @@ export default function UserList() {
             />
 
             <TableHeaderRow />
-
             <TableSelection showSelectAll={false} showSelectionColumn={false} highlightSelected />
-
             <PagingPanel />
           </Grid>
         </Paper>

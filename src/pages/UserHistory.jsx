@@ -7,9 +7,10 @@ const PAGE_SIZE = 5;
 const UserHistory = ({ userId, onClose }) => {
     const [versions, setVersions] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [totalCount, setTotalCount] = useState(0);
+    const [loading, setLoading] = useState(false);
 
-    const totalPages = Math.ceil(versions.length / PAGE_SIZE);
-    const currentItems = versions.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+    const totalPages = Math.ceil(totalCount / PAGE_SIZE);
 
     const revertToVersion = (userId, versionId) => {
         if (window.confirm("Da li ste sigurni da želite da vratite ovu verziju?")) {
@@ -23,11 +24,19 @@ const UserHistory = ({ userId, onClose }) => {
 
     useEffect(() => {
         const fetchVersions = async () => {
-            const res = await API.get(`/users/user-history/${userId}`);
-            setVersions(res.data);
+            setLoading(true);
+            try {
+                const res = await API.get(`/users/user-history/${userId}?page=${currentPage}`);
+                setVersions(res.data.history);
+                setTotalCount(res.data.totalCount);
+            } catch (error) {
+                console.error("Greška pri dohvaćanju audit logova:", error);
+            } finally {
+                setLoading(false);
+            }
         };
         fetchVersions();
-    }, [userId]);
+    }, [userId, currentPage]);
 
     return (
         <div className="modal-overlay" onClick={onClose}>
@@ -49,7 +58,7 @@ const UserHistory = ({ userId, onClose }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {currentItems.map((version, index) => (
+                        {versions.map((version, index) => (
                             <tr key={version.id}>
                                 <td>{(currentPage - 1) * PAGE_SIZE + index + 1}</td>
                                 <td>{version.firstName}</td>

@@ -16,6 +16,7 @@ export default function ProfileModal({ onClose, onSave }) {
         email: '',
     });
 
+    const [initialForm, setInitialForm] = useState(null);
     const [changePassword, setChangePassword] = useState(false);
     const [passwordForm, setPasswordForm] = useState({
         currentPassword: '',
@@ -34,13 +35,15 @@ export default function ProfileModal({ onClose, onSave }) {
             try {
                 const res = await API.get('/users/profile');
                 const data = res.data;
-                setForm({
+                const loadedForm = {
                     firstName: data.firstName || '',
                     lastName: data.lastName || '',
                     address: data.address || '',
                     dateOfBirth: data.dateOfBirth ? data.dateOfBirth.split('T')[0] : '',
                     email: data.email || '',
-                });
+                };
+                setForm(loadedForm);
+                setInitialForm(loadedForm);
             } catch (err) {
                 console.error('Greška pri učitavanju profila:', err);
                 setServerError('Greška prilikom učitavanja profila.');
@@ -48,7 +51,6 @@ export default function ProfileModal({ onClose, onSave }) {
                 setLoading(false);
             }
         };
-
         fetchProfile();
     }, []);
 
@@ -82,30 +84,29 @@ export default function ProfileModal({ onClose, onSave }) {
         setErrors(generalErrors);
         if (Object.keys(generalErrors).length > 0) return;
 
-        // Ako mijenja lozinku, validiraj lozinku
         if (changePassword) {
             const passErrors = validateProfilePasswordChange(passwordForm);
             setPasswordErrors(passErrors);
             if (Object.keys(passErrors).length > 0) return;
         } else {
-            setPasswordErrors({}); // Ako ne mijenja lozinku, briši greške vezane za lozinku
+            setPasswordErrors({});
+        }
+
+        const hasFormChanged = JSON.stringify(form) !== JSON.stringify(initialForm);
+        if (!hasFormChanged && !changePassword) {
+            setSuccessMessage('Nema izmjena za čuvanje.');
+            setTimeout(() => setSuccessMessage(''), 2000);
+            return;
         }
 
         try {
-            // Kreiraj payload za profil
             const payload = {
                 ...form,
                 dateOfBirth: form.dateOfBirth ? new Date(form.dateOfBirth).toISOString() : null,
             };
 
-            // Pošaljite podatke o profilu
-            await API.put('/users/profile', payload, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
+            await API.put('/users/profile', payload);
 
-            // Ako se mijenja lozinka, pošaljite lozinku
             if (changePassword) {
                 await API.put('/users/change-password', {
                     currentPassword: passwordForm.currentPassword,
@@ -115,12 +116,9 @@ export default function ProfileModal({ onClose, onSave }) {
             }
 
             setSuccessMessage('Profil uspješno ažuriran!');
-            onSave?.();
-
-            // Resetuj lozinku i validacije
             resetPasswordSection();
+            setInitialForm(form);
 
-            // Sakrij poruku i zatvori modal nakon 2 sekunde
             setTimeout(() => {
                 setSuccessMessage('');
                 handleClose();
@@ -128,7 +126,11 @@ export default function ProfileModal({ onClose, onSave }) {
 
         } catch (error) {
             console.error('Greška prilikom čuvanja profila:', error);
-            setServerError('Došlo je do greške prilikom ažuriranja profila.');
+            if (error.response && error.response.status === 400) {
+                setErrors(prev => ({ ...prev, email: 'Email adresa je već u upotrebi.' }));
+            } else {
+                setServerError('Došlo je do greške prilikom ažuriranja profila.');
+            }
         }
     };
 
@@ -139,6 +141,8 @@ export default function ProfileModal({ onClose, onSave }) {
         setSuccessMessage('');
         onClose();
     };
+
+    const hasFormChanged = JSON.stringify(form) !== JSON.stringify(initialForm);
 
     if (loading) return <div className="modal-overlay"><div className="modal-box">Učitavanje...</div></div>;
 
@@ -244,7 +248,12 @@ export default function ProfileModal({ onClose, onSave }) {
                     )}
 
                     <div className="modal-buttons">
-                        <button type="submit">Sačuvaj</button>
+                        <button
+                            type="submit"
+                            disabled={!hasFormChanged && !changePassword}
+                        >
+                            Sačuvaj
+                        </button>
                         <button type="button" onClick={handleClose}>
                             Otkaži
                         </button>

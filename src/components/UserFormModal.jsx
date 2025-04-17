@@ -96,9 +96,18 @@ const UserFormModal = ({ open, onClose, onSubmit, initialData }) => {
         } catch (err) {
             console.error('Greška prilikom spremanja korisnika:', err);
 
+            if (err.response && err.response.status === 400) {
+                setErrors((prev) => ({
+                    ...prev,
+                    email: 'Email adresa već postoji.',
+                }));
+            } else if (err.response?.data?.message) {
+                alert(err.response.data.message);
+            } else {
+                alert('Došlo je do greške pri spremanju korisnika.');
+            }
         }
     };
-
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();

@@ -39,7 +39,11 @@ export default function Dashboard() {
 
     const handleSaveProfile = async (payload) => {
         try {
-            await API.put('/users/profile', payload);
+            await API.put('/users/profile', payload, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
             setShowModal(false);
             const refreshed = await API.get('/users/profile');
             setUser(refreshed.data);
