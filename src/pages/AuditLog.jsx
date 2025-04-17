@@ -1,49 +1,67 @@
 import React, { useEffect, useState } from "react";
 import API from '../services/api';
-import "../styles/UserHistory.css";
+import "../styles/AuditLog.css";
+
+const PAGE_SIZE = 7;
 
 const AuditLog = () => {
     const [versions, setVersions] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
         const fetchVersions = async () => {
             const res = await API.get('/users/audit-logs');
-            const data = res.data.map(userHistory => ({
-                ...userHistory
-            }));
-            setVersions(data);
+            setVersions(res.data);
         };
         fetchVersions();
-    });
+    }, []);
+
+    const totalPages = Math.ceil(versions.length / PAGE_SIZE);
+    const currentItems = versions.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+
+    const goToPage = (page) => {
+        if (page >= 1 && page <= totalPages) {
+            setCurrentPage(page);
+        }
+    };
 
     return (
-        <div className="user-history-modal">
-            <h2>Audit Log</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Tabela</th>
-                        <th>Naziv akcije</th>
-                        <th>Izmijenio</th>
-                        <th>Datum</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {versions.map((version, index) => (
-                        <tr key={version.id}>
-                            <td>{index + 1}</td>
-                            <td>{version.tableName}</td>
-                            <td>{version.action}</td>
-                            <td>{version.changedBy}</td>
-                            <td>{new Date(version.changedAt).toLocaleString()}</td>
+        <div className="audit-log-container">
+            <h2 align="center">Audit Log</h2>
+            <div className="audit-log-table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Tabela</th>
+                            <th>Naziv akcije</th>
+                            <th>Izmijenio</th>
+                            <th>Datum</th>
                         </tr>
-                    ))}
-                </tbody>
+                    </thead>
+                    <tbody>
+                        {currentItems.map((version, index) => (
+                            <tr key={version.id}>
+                                <td>{(currentPage - 1) * PAGE_SIZE + index + 1}</td>
+                                <td>{version.tableName}</td>
+                                <td>{version.action}</td>
+                                <td>{version.changedBy}</td>
+                                <td>{new Date(version.changedAt).toLocaleString()}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
 
-            </table>
-
-
+            <div className="pagination">
+                <button onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1}>
+                    &lt; Prethodna
+                </button>
+                <span>Stranica {currentPage} od {totalPages}</span>
+                <button onClick={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages}>
+                    Sljedeća &gt;
+                </button>
+            </div>
         </div>
     );
 };

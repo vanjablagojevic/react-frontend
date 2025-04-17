@@ -95,6 +95,7 @@ const UserFormModal = ({ open, onClose, onSubmit, initialData }) => {
             handleClose();
         } catch (err) {
             console.error('Greška prilikom spremanja korisnika:', err);
+
         }
     };
 

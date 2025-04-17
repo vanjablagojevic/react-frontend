@@ -164,14 +164,6 @@ export default function UserList() {
     handleCloseExportMenu();
   };
 
-  const handleUserHistory = () => {
-    if (selection.length === 1) {
-      const userId = selection[0];
-      setUserHistory(userId);
-      setShowUserHistory(true);
-    }
-  };
-
   return (
     <>
       <Box className="userlist-container">

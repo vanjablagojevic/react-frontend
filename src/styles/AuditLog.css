@@ -1,0 +1,78 @@
+.audit-log-container {
+    background-color: #ffffff;
+    padding: 32px;
+    width: 95%;
+    max-width: 1200px;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    font-family: 'Segoe UI', sans-serif;
+    max-height: 90vh;
+    overflow-y: auto;
+
+}
+
+.audit-log-container h2 {
+    color: #3f51b5;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+.audit-log-table-wrapper {
+    overflow-x: auto;
+}
+
+.audit-log-container table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    min-width: 800px;
+}
+
+.audit-log-container th,
+.audit-log-container td {
+    padding: 12px 16px;
+    border: 1px solid #e0e0e0;
+    text-align: left;
+    font-size: 14px;
+}
+
+.audit-log-container th {
+    background-color: #5c6bc0;
+    color: white;
+    font-weight: bold;
+}
+
+.audit-log-container tr:hover {
+    background-color: #f1f8ff;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+    gap: 10px;
+}
+
+.pagination button {
+    background-color: #5c6bc0;
+    color: white;
+    font-weight: 600;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.pagination button:hover {
+    background-color: #3f51b5;
+}
+
+.pagination button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
