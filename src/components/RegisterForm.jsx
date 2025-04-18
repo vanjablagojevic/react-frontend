@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import API from '../services/api';
 import '../styles/LoginForm.css';
 import { validateField, validateForm } from '../utils/validation';
+import { toast } from 'react-toastify';
 
 export default function RegisterForm() {
   const [form, setForm] = useState({
@@ -58,7 +59,7 @@ export default function RegisterForm() {
         email: form.email,
         password: form.password,
       });
-      alert('Registracija uspješna! Možete se prijaviti.');
+      toast.success('Registracija uspješna! Možete se prijaviti.');
       navigate('/login');
     } catch (err) {
       setApiError(err.response?.data || 'Greška pri registraciji.');
